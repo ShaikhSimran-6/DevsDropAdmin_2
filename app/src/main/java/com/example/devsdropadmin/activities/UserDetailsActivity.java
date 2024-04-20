@@ -71,7 +71,7 @@ ImageView back_btn;
 
         Intent intent=getIntent();
         userId=intent.getStringExtra("userId");
-
+        Toast.makeText(UserDetailsActivity.this, "hiiii", Toast.LENGTH_SHORT).show();
 
 
         FirebaseUtil.getOtherUserDetails(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -191,6 +191,8 @@ ImageView back_btn;
 
         AlertDialog dialog = builder.create();
         dialog.show();
+
+
     }
 
 

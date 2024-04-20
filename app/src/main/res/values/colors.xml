@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="Secondary_blue">#072247</color>
+    <color name="gray">#F8D4D4D4</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="midnight_blue">#072247</color>
+    <color name="midnight_blue_2">#0B3061</color>
+    <color name="midnight_blue_3">#083F86</color>
+    <color name="circle">#5A9ED7</color>
+    <color name="shadow_grey">#AAA5A5</color>
+    <color name="black_shade_1">#343a40</color>
+    <color name="text_grey">#53575D</color>
+    <color name="grey">#495057</color>
+    <color name="yellow">#ffd60a</color>
+    <color name="orange">#FF9800</color>
+
+    <!--    background-->
+
+    <color name="background_1">#094993</color>
+    <color name="background_2">#015ECF</color>
+    <color name="background_3">#C9E0FF</color>
+
+    <!--    card 1-->
+    <color name="card_1_color_1">#047DA0</color>
+    <color name="card_1_color_2">#7BAAB8</color>
+
+    <!--    wave 1-->
+
+    <color name="wave_1_color_1">#56AAC3</color>
+    <color name="wave_1_color_2">#8CC7D4</color>
+
+    <!--    card 2-->
+
+    <color name="card_2_color_1">#91376A</color>
+    <color name="card_2_color_2">#B96093</color>
+    <color name="card_2_color_3">#DC9ABF</color>
+
+    <!--    wave 2-->
+
+    <color name="wave_2_color_1">#D188B6</color>
+    <color name="wave_2_color_2">#D28AAE</color>
+    <color name="wave_2_color_3">#E0B4CB</color>
+
+    <!--    card 3-->
+
+    <color name="card_3_color_1">#9D7DD0</color>
+    <color name="card_3_color_2">#B57FBE</color>
+
+    <!--    wave 3-->
+
+    <color name="wave_3_color_1">#A78DE8</color>
+    <color name="wave_3_color_2">#BBA0E1</color>
+
+    <!--    card 4-->
+
+    <color name="card_4_color_1">#668DE1</color>
+    <color name="card_4_color_2">#9CB5E8</color>
+
+    <!--    wave 4-->
+
+    <color name="wave_4_color_1">#6C8FC6</color>
+    <color name="wave_4_color_2">#9FC0F0</color>
+
+    <!--    card 5-->
+
+    <color name="card_5_color_1">#30AAAA</color>
+    <color name="card_5_color_2">#5AB699</color>
+
+    <!--    wave 5-->
+
+    <color name="wave_5_color_1">#3F928C</color>
+    <color name="wave_5_color_2">#5ACAC0</color>
+
+    <!--    card 6-->
+
+    <color name="card_6_color_1">#6240A5</color>
+    <color name="card_6_color_2">#7452B1</color>
+    <color name="card_6_color_3">#9487AC</color>
+
+    <!--    wave 6-->
+
+    <color name="wave_6_color_1">#BF71E8</color>
+    <color name="wave_6_color_2">#D1A3E4</color>
+
+</resources>

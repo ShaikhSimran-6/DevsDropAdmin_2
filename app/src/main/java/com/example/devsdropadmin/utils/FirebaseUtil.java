@@ -33,9 +33,6 @@ public class FirebaseUtil {
         return FirebaseFirestore.getInstance().collection("users").document(id);
 
     }
-    public static DocumentReference PostUsername(String id) {
-        return FirebaseFirestore.getInstance().collection("users").document(id);
-    }
 
 
 

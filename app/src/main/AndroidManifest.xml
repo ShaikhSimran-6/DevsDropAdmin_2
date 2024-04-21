@@ -15,6 +15,9 @@
         android:theme="@style/Theme.DevsDropAdmin"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ReportedUsersActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AllPostsActivity"
             android:exported="false" />
         <activity
@@ -25,15 +28,13 @@
             android:exported="false" />
         <activity
             android:name=".activities.AllUsersActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".login.SignInActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

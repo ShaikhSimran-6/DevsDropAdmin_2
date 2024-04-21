@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.card1User.setOnClickListener(view -> {
+        binding.card1Users.setOnClickListener(view -> {
             startActivity(new Intent(MainActivity.this, AllUsersActivity.class));
         });
 

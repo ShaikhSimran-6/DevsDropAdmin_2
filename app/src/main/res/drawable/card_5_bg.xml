@@ -6,6 +6,6 @@
         android:type="linear"
         android:startColor="@color/card_5_color_1"
         android:endColor="@color/card_5_color_2"
-        android:angle="95"
+        android:angle="90"
         />
 </shape>

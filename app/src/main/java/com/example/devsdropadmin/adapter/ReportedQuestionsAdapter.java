@@ -10,8 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devsdropadmin.R;
+import com.example.devsdropadmin.databinding.QuestionsRowLayoutBinding;
 import com.example.devsdropadmin.databinding.ReportedPostsLayoutBinding;
 import com.example.devsdropadmin.model.DashBoardModel;
+import com.example.devsdropadmin.model.QuestionModel;
 import com.example.devsdropadmin.model.Report;
 import com.example.devsdropadmin.model.UserModel;
 import com.example.devsdropadmin.utils.FirebaseUtil;
@@ -41,7 +43,7 @@ public class ReportedQuestionsAdapter extends RecyclerView.Adapter<ReportedQuest
     @NonNull
     @Override
     public MyViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.reported_posts_layout, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.questions_row_layout, parent, false);
         return new MyViewholder(view);
     }
 
@@ -50,32 +52,27 @@ public class ReportedQuestionsAdapter extends RecyclerView.Adapter<ReportedQuest
         Report reportmodel = list.get(position);
 
         holder.binding.reportReason.setText("Reason : "+reportmodel.getReason());
-        FirebaseDatabase.getInstance().getReference("posts").child(reportmodel.getPostId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("queries").child(reportmodel.getPostId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Assuming Post is a class representing your post data
-                DashBoardModel post = dataSnapshot.getValue(DashBoardModel.class);
-                holder.binding.postDescription.setText(post.getPostDescription());
-                Picasso.get()
-                        .load(post.getPostImage())
-                        .placeholder(R.drawable.placeholder)
-                        .into(holder.binding.dashBoardPostImage);
-                holder.binding.like.setText(String.valueOf(post.getPostLike()));
+                QuestionModel model = dataSnapshot.getValue(QuestionModel.class);
 
-                FirebaseUtil.userDetails(post.getPostedBy()).get().addOnCompleteListener(task -> {
+
+                FirebaseUtil.userDetails(model.getPostedby()).get().addOnCompleteListener(task -> {
                     UserModel model1 = task.getResult().toObject(UserModel.class);
-                    holder.binding.dashBoardUserName.setText(model1.getUsername().toString());
+                    holder.binding.questionUsername.setText(model1.getUsername().toString());
 
                     if (model1.getProfile()!=null)
                     {
                         Picasso.get()
                                 .load(model1.getProfile())
                                 .placeholder(R.drawable.placeholder)
-                                .into(holder.binding.profileImage);
+                                .into(holder.binding.questionsProfileImage);
                     }
                 });
 
-                long timestamp = post.getPostedAt();
+                long timestamp = model.getPostedAt();
 
                 // Convert the timestamp to Date
                 Date date = new Date(timestamp);
@@ -83,8 +80,9 @@ public class ReportedQuestionsAdapter extends RecyclerView.Adapter<ReportedQuest
                 // Format the Date to a human-readable format
                 SimpleDateFormat sdf = new SimpleDateFormat("d MMM h:mma", Locale.ENGLISH);
                 String formattedDate = sdf.format(date);
-                holder.binding.time.setText(formattedDate.toString());
-
+                holder.binding.questionTime.setText(formattedDate.toString());
+holder.binding.question.setText(model.getQuestion());
+holder.binding.answercount.setText(String.valueOf(model.getAnswercount()));
 
             }
 
@@ -119,12 +117,12 @@ public class ReportedQuestionsAdapter extends RecyclerView.Adapter<ReportedQuest
 
 class MyViewholder extends RecyclerView.ViewHolder {
 
-        ReportedPostsLayoutBinding binding;
+        QuestionsRowLayoutBinding binding;
 
         public MyViewholder(@NonNull View itemView) {
             super(itemView);
 
-            binding = ReportedPostsLayoutBinding.bind(itemView);
+            binding = QuestionsRowLayoutBinding.bind(itemView);
 
         }
     }

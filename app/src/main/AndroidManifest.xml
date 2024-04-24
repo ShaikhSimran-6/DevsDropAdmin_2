@@ -15,6 +15,12 @@
         android:theme="@style/Theme.DevsDropAdmin"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ReportedQuestionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ReportedPostsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ReportedUsersActivity"
             android:exported="false" />
         <activity
@@ -28,7 +34,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.AllUsersActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".login.SignInActivity"
             android:exported="true" />

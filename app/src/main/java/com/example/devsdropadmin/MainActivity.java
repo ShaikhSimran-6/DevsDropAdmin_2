@@ -8,6 +8,8 @@ import android.widget.Button;
 
 import com.example.devsdropadmin.activities.AllPostsActivity;
 import com.example.devsdropadmin.activities.AllUsersActivity;
+import com.example.devsdropadmin.activities.ReportedPostsActivity;
+import com.example.devsdropadmin.activities.ReportedQuestionsActivity;
 import com.example.devsdropadmin.activities.ReportedUsersActivity;
 import com.example.devsdropadmin.databinding.ActivityMainBinding;
 
@@ -28,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         binding.card4ReUser.setOnClickListener(view -> {
             startActivity(new Intent(MainActivity.this, ReportedUsersActivity.class));
         });
-
+        binding.card5.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, ReportedPostsActivity.class));
+        });
+        binding.card6.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, ReportedQuestionsActivity.class));
+        });
     }
 }

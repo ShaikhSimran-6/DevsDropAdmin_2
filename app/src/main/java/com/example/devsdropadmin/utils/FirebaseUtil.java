@@ -2,6 +2,7 @@ package com.example.devsdropadmin.utils;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -35,7 +36,21 @@ public class FirebaseUtil {
 
     }
 
+    public static void markPostsAsDeleted(String userId) {
+        DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("posts").child(userId);
+        postsRef.child("deleted").setValue(true);
 
+    }
+    public static void markQuestionsAsDeleted(String userId) {
+        DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("queries").child(userId);
+        postsRef.child("deleted").setValue(true);
+
+    }
+    public static void markAnswersAsDeleted(String userId) {
+        DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("queries").child("answers").child(userId);
+        postsRef.child("deleted").setValue(true);
+
+    }
 
 
     public static DocumentReference userDetails(String id) {

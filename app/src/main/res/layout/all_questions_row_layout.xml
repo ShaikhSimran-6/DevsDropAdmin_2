@@ -121,16 +121,6 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/report_reason"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2 hours"
-            android:layout_margin="15dp"
-            android:textSize="18sp"
-          android:layout_below="@id/linear3"
-
-            android:textStyle="bold" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

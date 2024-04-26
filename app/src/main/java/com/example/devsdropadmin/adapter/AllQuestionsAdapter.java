@@ -4,20 +4,17 @@ package com.example.devsdropadmin.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devsdropadmin.R;
-import com.example.devsdropadmin.activities.UserDetailsActivity;
-import com.example.devsdropadmin.databinding.ReportedPostsLayoutBinding;
-import com.example.devsdropadmin.databinding.ReportedUsersRowLayoutBinding;
-import com.example.devsdropadmin.model.DashBoardModel;
+import com.example.devsdropadmin.databinding.AllQuestionsRowLayoutBinding;
+import com.example.devsdropadmin.databinding.QuestionsRowLayoutBinding;
+import com.example.devsdropadmin.model.QuestionModel;
 import com.example.devsdropadmin.model.Report;
 import com.example.devsdropadmin.model.UserModel;
 import com.example.devsdropadmin.utils.FirebaseUtil;
@@ -25,10 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -39,12 +33,12 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class ReportedPostsAdapter extends RecyclerView.Adapter<ReportedPostsAdapter.MyViewholder>{
+public class AllQuestionsAdapter extends RecyclerView.Adapter<AllQuestionsAdapter.MyViewholder>{
 
     Context context ;
-    List<Report> list;
+    List<QuestionModel> list;
 
-    public ReportedPostsAdapter(Context context, List<Report> list) {
+    public AllQuestionsAdapter(Context context, List<QuestionModel> list) {
         this.context=context;
 
         this.list = list;
@@ -53,47 +47,31 @@ public class ReportedPostsAdapter extends RecyclerView.Adapter<ReportedPostsAdap
     @NonNull
     @Override
     public MyViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.reported_posts_layout, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.all_questions_row_layout, parent, false);
         return new MyViewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewholder holder, int position) {
-        Report reportmodel = list.get(position);
+        QuestionModel model = list.get(position);
 
-        holder.binding.reportReason.setText("Reason : "+reportmodel.getReason());
-        FirebaseDatabase.getInstance().getReference("posts").child(reportmodel.getPostId()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Assuming Post is a class representing your post data
-                DashBoardModel post = dataSnapshot.getValue(DashBoardModel.class);
-                if (post.getPostDescription()!=null){
-                    holder.binding.postDescription.setText(post.getPostDescription());
-                }
-                else{
-                    holder.binding.postDescription.setText(" ");
-                }
 
-                Picasso.get()
-                        .load(post.getPostImage())
-                        .placeholder(R.drawable.placeholder)
-                        .into(holder.binding.dashBoardPostImage);
-                holder.binding.like.setText(String.valueOf(post.getPostLike()));
 
-                FirebaseUtil.userDetails(post.getPostedBy()).get().addOnCompleteListener(task -> {
+
+                FirebaseUtil.userDetails(model.getPostedby()).get().addOnCompleteListener(task -> {
                     UserModel model1 = task.getResult().toObject(UserModel.class);
-                    holder.binding.dashBoardUserName.setText(model1.getUsername().toString());
+                    holder.binding.questionUsername.setText(model1.getUsername().toString());
 
                     if (model1.getProfile()!=null)
                     {
                         Picasso.get()
                                 .load(model1.getProfile())
                                 .placeholder(R.drawable.placeholder)
-                                .into(holder.binding.profileImage);
+                                .into(holder.binding.questionsProfileImage);
                     }
                 });
 
-                long timestamp = post.getPostedAt();
+                long timestamp = model.getPostedAt();
 
                 // Convert the timestamp to Date
                 Date date = new Date(timestamp);
@@ -101,20 +79,15 @@ public class ReportedPostsAdapter extends RecyclerView.Adapter<ReportedPostsAdap
                 // Format the Date to a human-readable format
                 SimpleDateFormat sdf = new SimpleDateFormat("d MMM h:mma", Locale.ENGLISH);
                 String formattedDate = sdf.format(date);
-                holder.binding.time.setText(formattedDate.toString());
-
-                holder.binding.postMenu.setOnClickListener(view -> {
-                    showYesNoDialog(context,"Delete Posts","Are you sure want to delete?", reportmodel.getPostId());
-                });
+                holder.binding.questionTime.setText(formattedDate.toString());
+holder.binding.question.setText(model.getQuestion());
+holder.binding.answercount.setText(String.valueOf(model.getAnswercount()));
 
 
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+holder.binding.deleteBtn.setOnClickListener(view -> {
+    showYesNoDialog(context,"Delete Question","Are You sure you want to delete?",model.getQuestionID());
+});
 
         holder.itemView.setOnClickListener(v -> {
             //chat activity
@@ -141,16 +114,15 @@ public class ReportedPostsAdapter extends RecyclerView.Adapter<ReportedPostsAdap
 
 class MyViewholder extends RecyclerView.ViewHolder {
 
-        ReportedPostsLayoutBinding binding;
+        AllQuestionsRowLayoutBinding binding;
 
         public MyViewholder(@NonNull View itemView) {
             super(itemView);
 
-            binding = ReportedPostsLayoutBinding.bind(itemView);
+            binding = AllQuestionsRowLayoutBinding.bind(itemView);
 
         }
     }
-
     private void showYesNoDialog(Context context, String title, String message,String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
@@ -161,10 +133,10 @@ class MyViewholder extends RecyclerView.ViewHolder {
             public void onClick(DialogInterface dialog, int which) {
                 // Handle positive (Yes) button click
                 // Dismiss the dialog
-                FirebaseUtil.markPostsAsDeleted(id);
+                FirebaseUtil.markQuestionsAsDeleted(id);
                 Map<String, Object> data = new HashMap<>();
                 data.put("userId", id);
-                FirebaseFirestore.getInstance().collection("deletedPosts").add(data);
+                FirebaseFirestore.getInstance().collection("deletedQueries").add(data);
                 dialog.dismiss();
 //
             }

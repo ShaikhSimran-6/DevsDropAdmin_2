@@ -12,9 +12,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.devsdropadmin.R;
-import com.example.devsdropadmin.adapter.ReportedPostsAdapter;
+import com.example.devsdropadmin.adapter.AllQuestionsAdapter;
 import com.example.devsdropadmin.adapter.ReportedQuestionsAdapter;
+import com.example.devsdropadmin.databinding.ActivityAllQuestionsBinding;
 import com.example.devsdropadmin.databinding.ActivityReportedQuestionsBinding;
+import com.example.devsdropadmin.model.QuestionModel;
 import com.example.devsdropadmin.model.Report;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,17 +26,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ReportedQuestionsActivity extends AppCompatActivity {
-   ActivityReportedQuestionsBinding binding;
-    ReportedQuestionsAdapter adapter;
+public class AllQuestionsActivity extends AppCompatActivity {
+    ActivityAllQuestionsBinding binding;
+    AllQuestionsAdapter adapter;
     FirebaseDatabase database;
     FirebaseAuth auth;
-    ArrayList<Report> list = new ArrayList<>();
+    ArrayList<QuestionModel> list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding= ActivityReportedQuestionsBinding.inflate(getLayoutInflater());
+        binding= ActivityAllQuestionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         database = FirebaseDatabase.getInstance();
         setUpRecyclerView();
@@ -45,19 +47,19 @@ public class ReportedQuestionsActivity extends AppCompatActivity {
     void setUpRecyclerView() {
 
 
-        adapter = new ReportedQuestionsAdapter(this, list);
+        adapter = new AllQuestionsAdapter(this, list);
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
         binding.recyclerview.setAdapter(adapter);
 
         database.getReference()
-                .child("reported_queries").addValueEventListener(new ValueEventListener() {
+                .child("queries").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         list.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                            Report report = dataSnapshot.getValue(Report.class);
-                            list.add(report);
+                            QuestionModel model = dataSnapshot.getValue(QuestionModel.class);
+                            list.add(model);
                         }
 
                         if (list.isEmpty()) {

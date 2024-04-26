@@ -1,7 +1,9 @@
 package com.example.devsdropadmin.adapter;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +23,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class ReportedQuestionsAdapter extends RecyclerView.Adapter<ReportedQuestionsAdapter.MyViewholder>{
@@ -84,6 +89,10 @@ public class ReportedQuestionsAdapter extends RecyclerView.Adapter<ReportedQuest
 holder.binding.question.setText(model.getQuestion());
 holder.binding.answercount.setText(String.valueOf(model.getAnswercount()));
 
+                holder.binding.deleteBtn.setOnClickListener(view -> {
+                    showYesNoDialog(context,"Delete Question","Are You sure you want to delete?",model.getQuestionID());
+                });
+
             }
 
             @Override
@@ -125,6 +134,39 @@ class MyViewholder extends RecyclerView.ViewHolder {
             binding = QuestionsRowLayoutBinding.bind(itemView);
 
         }
+    }
+    private void showYesNoDialog(Context context, String title, String message,String id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(message);
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle positive (Yes) button click
+                // Dismiss the dialog
+                FirebaseUtil.markQuestionsAsDeleted(id);
+                Map<String, Object> data = new HashMap<>();
+                data.put("userId", id);
+                FirebaseFirestore.getInstance().collection("deletedQueries").add(data);
+                dialog.dismiss();
+//
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle negative (No) button click
+                dialog.dismiss(); // Dismiss the dialog
+                // Add your action here if user clicks No
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
     }
 }
 
